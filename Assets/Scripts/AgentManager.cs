@@ -13,8 +13,8 @@ public class AgentManager : MonoBehaviour
     public GameObject AgentPrefab;
 
     private GameObject[] _entrances;
-    private int counter = -1;
-    private GameObject[] _targets;
+    private Dictionary<GameObject, GameObject> _targets = new Dictionary<GameObject, GameObject>();
+    private Dictionary<GameObject, GameObject> _agents = new Dictionary<GameObject, GameObject>();
 
     private void Awake()
     {
@@ -32,10 +32,11 @@ public class AgentManager : MonoBehaviour
     private void Start()
     {
         _entrances = GameObject.FindGameObjectsWithTag(EntranceTag);
-        _targets = GameObject.FindGameObjectsWithTag(TargetTag);
-        foreach (GameObject go in _entrances)
+        GameObject[] targets = GameObject.FindGameObjectsWithTag(TargetTag); //grabbing all targets in scene
+        foreach (GameObject target in targets) //loop through each target
         {
-            Debug.Log(go.name);
+            if (_targets.ContainsKey(target)) continue; //if target already in dictionary skip
+            _targets.Add(target, null);
         }
         InstantiateAgent(AgentPrefab);
     }
@@ -49,17 +50,54 @@ public class AgentManager : MonoBehaviour
         BehaviorTree behaviorTree = agent.GetComponent<BehaviorTree>();
         behaviorTree.SetVariableValue("Entrance", entrance); //assumes public tree variable Entrance
         behaviorTree.EnableBehavior();
+        _agents.Add(agent, null);
     }
 
     public void RemoveAgent(GameObject agent)
     {
+        GameObject lastTarget = _agents[agent];
+        _targets[lastTarget] = null; //remove agent from target
+        _agents.Remove(agent); //remove agent from agents dictionary
         Destroy(agent);
     }
 
     public GameObject GetTarget(GameObject agent)
     {
-        counter++;
-        if (counter >= _targets.Length) { counter = 0; }
-        return _targets[counter];
+        //make sure the agent doesn't go to previous target
+        GameObject lastTarget = _agents[agent];
+        if (lastTarget != null)
+        {
+            _targets[lastTarget] = null; //this target is open for a new agent
+        }
+
+        GameObject[] keys = _targets.Keys.ToArray();
+        keys = Shuffle(keys);
+        for (int i = 0; i < keys.Length; i++)
+        {
+            GameObject key = keys[i];
+
+            if (lastTarget == key) continue; //if target was previous target, skip
+            if (_targets[key] != null) continue; //if target has agent assigned, skip
+
+            _targets[key] = agent;
+            _agents[agent] = key;
+            return key; //key is a target
+        }
+
+        return null;
+    }
+
+    private GameObject[] Shuffle(GameObject[] objects)
+    {
+        GameObject tempGO;
+        for (int i = 0; i < objects.Length; i++)
+        {
+            //Debug.Log("i: " + i);
+            int rnd = Random.Range(0, objects.Length);
+            tempGO = objects[rnd];
+            objects[rnd] = objects[i];
+            objects[i] = tempGO;
+        }
+        return objects;
     }
 }
