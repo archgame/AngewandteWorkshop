@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 28924536}
   - component: {fileID: 28924535}
   m_Layer: 0
-  m_Name: Target
+  m_Name: Target A
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -980,7 +980,7 @@ GameObject:
   - component: {fileID: 115184722}
   - component: {fileID: 115184721}
   m_Layer: 0
-  m_Name: Target
+  m_Name: Target B
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5583,11 +5583,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66e1ad482103a3240bbf4d9ea4c14c76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Target:
+  - {fileID: 157415760}
+  - {fileID: 28924534}
+  - {fileID: 115184720}
+  Entrance: {fileID: 493445231}
   AgentPrefab: {fileID: 2030813204492602162, guid: f1490e29323f5cb4f8cb4aaf35a4dd4a,
     type: 3}
-  TargetTag: Target
-  EntranceTag: Entrance
-  EntranceRate: 2
 --- !u!4 &1354853680
 Transform:
   m_ObjectHideFlags: 0
