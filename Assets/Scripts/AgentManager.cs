@@ -16,6 +16,9 @@ public class AgentManager : MonoBehaviour
     private Dictionary<GameObject, GameObject> _targets = new Dictionary<GameObject, GameObject>();
     private Dictionary<GameObject, GameObject> _agents = new Dictionary<GameObject, GameObject>();
 
+    public float EntranceRate = 1.25f; //the rate at which agents will enter
+    private float _lastEntrance = 0; //time since last entrance
+
     private void Awake()
     {
         //Singleton Pattern
@@ -41,8 +44,23 @@ public class AgentManager : MonoBehaviour
         InstantiateAgent(AgentPrefab);
     }
 
+    private void Update()
+    {
+        if (EntranceRate <= _lastEntrance)
+        {
+            _lastEntrance = 0;
+            InstantiateAgent(AgentPrefab);
+        }
+        else //if(EntranceRate > _lastEntrance)
+        {
+            _lastEntrance += Time.deltaTime;
+        }
+    }
+
     private void InstantiateAgent(GameObject prefab)
     {
+        if (_agents.Count >= _targets.Count - 1) return;
+
         GameObject entrance = _entrances[Random.Range(0, _entrances.Length)];
 
         Vector3 position = entrance.transform.position;
