@@ -1,0 +1,17 @@
+D01:
+
+Agent/AgentManager
+- github introduction
+- Scripting introduction
+- how to write their own scripts with Behaviour Designer
+
+D02:
+
+UI/Metrics
+-Using Unity UI to represent agent numbers, speeds, air qualities ect.
+- Combining air or evaluation of air conditions with people simulation
+
+D03:
+
+Complex Behaviours
+- Distriute Agents In the Building
