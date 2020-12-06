@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using BehaviorDesigner.Runtime;
 using System.Linq;
 
@@ -8,7 +9,9 @@ public class AgentManager : MonoBehaviour
 {
     public static AgentManager Instance { get; private set; } //for singleton
 
+    [Header("GameObjects")]
     public string TargetTag = "Target";
+
     public string EntranceTag = "Entrance";
     public GameObject AgentPrefab;
 
@@ -18,6 +21,39 @@ public class AgentManager : MonoBehaviour
 
     public float EntranceRate = 1.25f; //the rate at which agents will enter
     private float _lastEntrance = 0; //time since last entrance
+
+    [Header("UI")]
+    public Text AgentCount;
+
+    public Text CarrierCount;
+    public Slider InfectedSlider;
+    public Text Percent;
+
+    private void UpdateUI()
+    {
+        //setup counts
+        int agentCount = _agents.Count;
+        int carrierCount = 0;
+        int infectedCount = 0;
+
+        //loop through all agents to find health status info
+        GameObject[] agents = _agents.Keys.ToArray();
+        foreach (GameObject agent in agents)
+        {
+            AgentHealth health = agent.GetComponent<AgentHealth>();
+            if (health == null) continue;
+
+            if (health.Status == AgentHealth.HealthStatus.CARRIER) { carrierCount++; }
+            if (health.Status == AgentHealth.HealthStatus.INFECTED) { infectedCount++; }
+        }
+        float percent = infectedCount / (agentCount * 1.00f);
+
+        //set UI text and slider
+        if (AgentCount != null) { AgentCount.text = "Agents: " + agentCount; }
+        if (CarrierCount != null) { CarrierCount.text = "Carriers: " + carrierCount; }
+        if (InfectedSlider != null) { InfectedSlider.value = percent; }
+        if (Percent != null) { Percent.text = percent * 100 + "%"; }
+    }
 
     private void Awake()
     {
@@ -55,6 +91,9 @@ public class AgentManager : MonoBehaviour
         {
             _lastEntrance += Time.deltaTime;
         }
+
+        //update the UI at end of Update
+        UpdateUI();
     }
 
     private void InstantiateAgent(GameObject prefab)
