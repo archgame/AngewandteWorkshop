@@ -13,9 +13,16 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         public SharedInt Visits;
         public SharedGameObject Entrance;
         public SharedGameObject Target;
+        public SharedGameObject Mechanical;
 
         public override TaskStatus OnUpdate()
         {
+            //reset mechanical
+            if (Mechanical.Value != null)
+            {
+                Mechanical.Value = null;
+            }
+
             if (Visits.Value <= 0)
             {
                 Target.Value = Entrance.Value;
@@ -27,7 +34,47 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
                 Target.Value = go;
             }
 
+            //checking to see if a mechanical allows better travel
+            GameObject mechanical = FindPath(this.gameObject, Target.Value.transform.position);
+            if (mechanical != null) { Mechanical.Value = mechanical; }
+
             return TaskStatus.Success;
+        }
+
+        public virtual GameObject FindPath(GameObject agent, Vector3 destinationPosition)
+        {
+            Mechanical[] mechanicals = GameObject.FindObjectsOfType<Mechanical>();
+            if (mechanicals.Length == 0) return null;
+
+            //Debug.Break();
+
+            //find agents walk distance
+            Vector3 agentPosition = agent.transform.position;
+            NavMeshAgent navAgent = agent.GetComponent<NavMeshAgent>();
+            float distance = AgentWalkDistance(navAgent, agent.transform, agentPosition, destinationPosition, Color.yellow);
+
+            //test all mechanicals for shorter distance than non-mechanical walk distance
+            GameObject start = null;
+            foreach (Mechanical m in mechanicals)
+            {
+                //agent to mechanical start distance
+                float distToM = AgentWalkDistance(navAgent, agent.transform, agentPosition, m.StartPosition(), Color.green);
+                //mechanical weighted distance
+                float distM = m.WeightedMechanicalLength();
+                //from mechanical end to target distance
+                float distFromM = AgentWalkDistance(navAgent, agent.transform, m.EndPosition(), destinationPosition, Color.red);
+
+                float distTotal = distToM + distM + distFromM;
+
+                if (distance > distTotal)
+                {
+                    //mechanical is shorter distance
+                    start = m.GetStart();
+                    distance = distTotal;
+                }
+            }
+
+            return start;
         }
 
         public static float AgentWalkDistance(NavMeshAgent agent, Transform trans,
@@ -37,7 +84,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
             if (Vector3.Distance(start, end) < 0.01f) return 0;
 
             //move agent to the start position
-            Vector3 initialPosition = trans.position;
+            Vector3 initialPosition = trans.position; //agents original position to move back to once calculation is complete
             agent.enabled = false;
             trans.position = start;//_agent.Move(start - initialPosition);
             agent.enabled = true;

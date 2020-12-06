@@ -9,6 +9,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent
     {
         public SharedGameObject Agent;
         public SharedGameObject Target;
+        public SharedGameObject Mechanical;
         private NavMeshAgent _navMeshAgent;
         private GameObject _prevGameObject;
 
@@ -26,6 +27,12 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent
         public override TaskStatus OnUpdate()
         {
             if (_navMeshAgent == null) { return TaskStatus.Failure; }
+
+            if (Mechanical.Value != null)
+            {
+                //if mechanical exists, head towards mechanical
+                return _navMeshAgent.SetDestination(Mechanical.Value.transform.position) ? TaskStatus.Success : TaskStatus.Failure;
+            }
 
             return _navMeshAgent.SetDestination(Target.Value.transform.position) ? TaskStatus.Success : TaskStatus.Failure;
         }
