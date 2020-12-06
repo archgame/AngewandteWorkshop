@@ -13,65 +13,21 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         public SharedInt Visits;
         public SharedGameObject Entrance;
         public SharedGameObject Target;
-        public SharedGameObject Mechanical;
 
         public override TaskStatus OnUpdate()
         {
-            //reset mechanical
-            if (Mechanical.Value != null)
+            if (Visits.Value <= 0)
             {
-                Mechanical.Value = null;
+                Target.Value = Entrance.Value;
             }
             else
             {
-                if (Visits.Value <= 0)
-                {
-                    Target.Value = Entrance.Value;
-                }
-                else
-                {
-                    GameObject go = AgentManager.Instance.GetTarget(this.gameObject);
-                    if (go == null) { return TaskStatus.Running; }
-                    Target.Value = go;
-                }
+                GameObject go = AgentManager.Instance.GetTarget(this.gameObject);
+                if (go == null) { return TaskStatus.Running; }
+                Target.Value = go;
             }
-
-            GameObject mechanical = FindPath(this.gameObject, Target.Value.transform.position);
-
-            if (mechanical != null) { Mechanical.Value = mechanical; }
 
             return TaskStatus.Success;
-        }
-
-        public GameObject FindPath(GameObject agent, Vector3 destinationPosition)
-        {
-            Mechanical[] mechanicals = GameObject.FindObjectsOfType<Mechanical>();
-            if (mechanicals.Length == 0) return null;
-
-            Debug.Break();
-
-            //get walking path distance
-            Vector3 agentPosition = agent.transform.position;
-            NavMeshAgent navAgent = agent.GetComponent<NavMeshAgent>();
-            float distance = AgentWalkDistance(navAgent, agent.transform, agentPosition, destinationPosition, Color.yellow);
-
-            //test all conveyances
-            GameObject start = null;
-
-            foreach (Mechanical m in mechanicals)
-            {
-                float distToC = AgentWalkDistance(navAgent, agent.transform, agentPosition, m.StartPosition(), Color.green);
-                float distC = m.WeightedMechanicalLength();
-                float distFromC = AgentWalkDistance(navAgent, agent.transform, m.EndPosition(), destinationPosition, Color.red);
-
-                if (distance > distToC + distC + distFromC)
-                {
-                    start = m.GetStart();
-                    distance = distToC + distC + distFromC;
-                }
-            }
-
-            return start;
         }
 
         public static float AgentWalkDistance(NavMeshAgent agent, Transform trans,
