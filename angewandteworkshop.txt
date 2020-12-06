@@ -8,8 +8,11 @@ Agent/AgentManager
 D02:
 
 UI/Metrics
--Using Unity UI to represent agent numbers, speeds, air qualities ect.
-- Combining air or evaluation of air conditions with people simulation
++++ Particle Vector Field
++++ Agent Particle Interaction
++++ Using Unity UI to represent agent numbers, speeds, air qualities ect.
++++ Combining air or evaluation of air conditions with people simulation
++++ FindPath() with two escalators
 
 D03:
 
