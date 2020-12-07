@@ -819,6 +819,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6363899877513883730}
     m_Modifications:
+    - target: {fileID: 2676865673586532091, guid: 467f1f79a645dc34aac4be8a7eada2e5,
+        type: 3}
+      propertyPath: Speed
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4446889300600362680, guid: 467f1f79a645dc34aac4be8a7eada2e5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2067,9 +2072,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b13184a7d2a0a8418ed2ea1d76ac7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObstalcePrefab: {fileID: 8357391875036012240, guid: 195e614cb440ed542bdf07db3b99dca3,
-    type: 3}
-  ObstacleLimit: 5
 --- !u!4 &1079611096
 Transform:
   m_ObjectHideFlags: 0
@@ -2434,9 +2436,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetTag: Target
   EntranceTag: Entrance
-  AgentPrefab: {fileID: 1678302860940359832, guid: e11083516ef05a1489752fcd79850357,
-    type: 3}
-  EntranceRate: 360
+  AgentPrefab:
+  - {fileID: 2030813204492602162, guid: f1490e29323f5cb4f8cb4aaf35a4dd4a, type: 3}
+  - {fileID: 1069855378725391603, guid: 6a5ea968b345fb7409f8d579ae82de37, type: 3}
+  - {fileID: 636733902065846660, guid: c302a97322907314db55ff763a1bc780, type: 3}
+  - {fileID: 1678302860940359832, guid: e11083516ef05a1489752fcd79850357, type: 3}
+  EntranceRate: 2
   AgentCount: {fileID: 0}
   CarrierCount: {fileID: 0}
   InfectedSlider: {fileID: 0}

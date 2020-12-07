@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4446889300301415580}
   m_Layer: 0
   m_Name: Start
-  m_TagString: Untagged
+  m_TagString: Mechanical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 4446889300554390986}
   m_Layer: 0
   m_Name: Top
-  m_TagString: Untagged
+  m_TagString: Mechanical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 4446889300556216142}
   m_Layer: 0
   m_Name: Middle
-  m_TagString: Untagged
+  m_TagString: Mechanical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 2676865673586532091}
   m_Layer: 0
   m_Name: Escalator
-  m_TagString: Untagged
+  m_TagString: Mechanical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 4446889300794789029}
   m_Layer: 0
   m_Name: Path
-  m_TagString: Untagged
+  m_TagString: Mechanical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 4446889301176198356}
   m_Layer: 0
   m_Name: Bottom
-  m_TagString: Untagged
+  m_TagString: Mechanical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 4446889301537827145}
   m_Layer: 0
   m_Name: End
-  m_TagString: Untagged
+  m_TagString: Mechanical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 4446889301911729524}
   m_Layer: 0
   m_Name: Top
-  m_TagString: Untagged
+  m_TagString: Mechanical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
@@ -468,7 +468,7 @@ GameObject:
   - component: {fileID: 4446889302118535209}
   m_Layer: 0
   m_Name: Bottom
-  m_TagString: Untagged
+  m_TagString: Mechanical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8

@@ -13,7 +13,7 @@ public class AgentManager : MonoBehaviour
     public string TargetTag = "Target";
 
     public string EntranceTag = "Entrance";
-    public GameObject AgentPrefab;
+    public GameObject[] AgentPrefab;
 
     private GameObject[] _entrances;
     private Dictionary<GameObject, GameObject> _targets = new Dictionary<GameObject, GameObject>();
@@ -77,7 +77,7 @@ public class AgentManager : MonoBehaviour
             if (_targets.ContainsKey(target)) continue; //if target already in dictionary skip
             _targets.Add(target, null);
         }
-        InstantiateAgent(AgentPrefab);
+        InstantiateAgent(AgentPrefab[Random.Range(0, AgentPrefab.Length)]);
     }
 
     private void Update()
@@ -85,7 +85,7 @@ public class AgentManager : MonoBehaviour
         if (EntranceRate <= _lastEntrance)
         {
             _lastEntrance = 0;
-            InstantiateAgent(AgentPrefab);
+            InstantiateAgent(AgentPrefab[Random.Range(0, AgentPrefab.Length)]);
         }
         else //if(EntranceRate > _lastEntrance)
         {
