@@ -51,18 +51,18 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
             //find agents walk distance
             Vector3 agentPosition = agent.transform.position;
             NavMeshAgent navAgent = agent.GetComponent<NavMeshAgent>();
-            float distance = AgentWalkDistance(navAgent, agent.transform, agentPosition, destinationPosition, Color.yellow);
+            float distance = AgentWalkDistance(navAgent, agentPosition, destinationPosition, Color.yellow);
 
             //test all mechanicals for shorter distance than non-mechanical walk distance
             GameObject start = null;
             foreach (Mechanical m in mechanicals)
             {
                 //agent to mechanical start distance
-                float distToM = AgentWalkDistance(navAgent, agent.transform, agentPosition, m.StartPosition(), Color.green);
+                float distToM = AgentWalkDistance(navAgent, agentPosition, m.StartPosition(), Color.green);
                 //mechanical weighted distance
                 float distM = m.WeightedMechanicalLength();
                 //from mechanical end to target distance
-                float distFromM = AgentWalkDistance(navAgent, agent.transform, m.EndPosition(), destinationPosition, Color.red);
+                float distFromM = AgentWalkDistance(navAgent, m.EndPosition(), destinationPosition, Color.red);
 
                 float distTotal = distToM + distM + distFromM;
 
@@ -77,17 +77,15 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
             return start;
         }
 
-        public static float AgentWalkDistance(NavMeshAgent agent, Transform trans,
+        public static float AgentWalkDistance(NavMeshAgent agent,
         Vector3 start, Vector3 end, Color color)
         {
             //in case they are the same position
             if (Vector3.Distance(start, end) < 0.01f) return 0;
 
             //move agent to the start position
-            Vector3 initialPosition = trans.position; //agents original position to move back to once calculation is complete
-            agent.enabled = false;
-            trans.position = start;//_agent.Move(start - initialPosition);
-            agent.enabled = true;
+            Vector3 initialPosition = agent.transform.position; //agents original position to move back to once calculation is complete
+            MoveAgent(agent, start);
 
             //test to see if agent has path or not
             float distance = Mathf.Infinity;
@@ -95,9 +93,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
             if (!agent.CalculatePath(end, navMeshPath))
             {
                 //reset agent to original position
-                agent.enabled = false;
-                trans.position = initialPosition;//_agent.Move(initialPosition - start);
-                agent.enabled = true;
+                MoveAgent(agent, initialPosition);
                 return distance;
             }
 
@@ -106,9 +102,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
             if (path.Length < 2 || Vector3.Distance(path[path.Length - 1], end) > 2)
             {
                 //reset agent to original position
-                agent.enabled = false;
-                trans.position = initialPosition;//_agent.Move(initialPosition - start);
-                agent.enabled = true;
+                MoveAgent(agent, initialPosition);
                 return distance;
             }
 
@@ -121,11 +115,16 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
             }
 
             //reset agent to original position
-            agent.enabled = false;
-            trans.position = initialPosition;//_agent.Move(initialPosition - start);
-            agent.enabled = true;
+            MoveAgent(agent, initialPosition);
 
             return distance;
+        }
+
+        public static void MoveAgent(NavMeshAgent agent, Vector3 position)
+        {
+            agent.enabled = false;
+            agent.transform.position = position;//_agent.Move(start - initialPosition);
+            agent.enabled = true;
         }
     }
 }
