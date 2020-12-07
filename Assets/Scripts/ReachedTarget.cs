@@ -14,7 +14,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         public SharedGameObject Target;
         public SharedGameObject Entrance;
         public SharedGameObject Mechanical;
-        public SharedFloat arriveDistance = 0.5f;
+        public SharedFloat arriveDistance = 0.75f;
         public SharedInt ReachedCount = 0;
 
         private bool startMechanical = false; //true if agent has reached mechanical Start

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Target
   - Entrance
+  - Mechanical
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - Air
   - Agent
   - Fan
-  - 
+  - Floor
   - 
   - 
   - 

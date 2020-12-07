@@ -17,4 +17,13 @@ UI/Metrics
 D03:
 
 Complex Behaviours
-- Distriute Agents In the Building
++++ Types of agents
+	Agent001 - basic
+	Agent002 - look
+	Agent003 - closest
+	Agent004 - mech only
+	Agent005 - areaMask
++++ Interaction Spheres
+- infected agents total
+- object instantiation
+- camera click raycasting
