@@ -66,6 +66,7 @@ public class AgentHealth : MonoBehaviour
         if (go.layer == LayerMask.NameToLayer("Agent")) //agent particles are infected
         {
             //Debug.Log("Agent");
+            if (InteractionMarker.Instance != null) InteractionMarker.Instance.Interact(this.transform.position); //+++
             ChangeHealth(-HealthDecrease);
         }
     }
